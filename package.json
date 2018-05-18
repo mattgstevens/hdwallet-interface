@@ -1,0 +1,36 @@
+{
+  "name": "hdwallet-interface",
+  "version": "1.0.0",
+  "description": "An interface for HDWallets, for use in both an air gapped and internet connected host.",
+  "repository": "https://github.com/mattgstevens/hd-interface",
+  "author": "mattgstevens <mattgstevens@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build:comment": "this tool is faster than using the babel plugin, and is useful when you do not need babel / want to remove flowtypes directly as a step for: browserify / rollup /webpack",
+    "build": "flow-remove-types --pretty src/ --out-dir build/",
+    "repl:comment": "open a repl that is flow type aware",
+    "repl": "flow-node",
+    "test:comment": "run test suite with config to parse flow and report coverage",
+    "test": "jest --config config/jest.js --coverage",
+    "demo:comment": "provide a mnemonic and see it work",
+    "demo:send-eth": "flow-node ./example/send-eth.js",
+    "demo:extended-keys": "flow-node ./example/extended-keys.js"
+  },
+  "dependencies": {
+    "bip39": "^2.5.0",
+    "eth-query": "^2.1.2",
+    "ethereumjs-tx": "^1.3.4",
+    "hdkey": "^0.8.0",
+    "js-sha3": "^0.7.0",
+    "web3-providers-http": "^1.0.0-beta.34"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.71.0",
+    "flow-remove-types": "^1.2.3",
+    "flow-typed": "^2.4.0",
+    "jest": "^22.4.3",
+    "prettier": "^1.12.1",
+    "table": "^4.0.3",
+    "treeify": "^1.1.0"
+  }
+}
