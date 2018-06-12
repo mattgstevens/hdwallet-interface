@@ -20,11 +20,14 @@ import type HDKeyT from 'hdkey'
 //
 // Hardended keys are only possible when the private key is known for the assumed "root"
 //
-// NOTE: this is for coin_type Ethereum (`60'`)
-// NOTE: in this implementation a call to `getIndex` must be made as it is not included in this
-// default path
-const defaultWalletPath = "m/44'/60'/0'/0"
+// NOTE: currently coin_type is always Ethereum (`60`)
+type GetPathForAccountT = number => string
+const getPathForAccount: GetPathForAccountT = accountId =>
+  `m/44'/60'/${accountId}'/0`
 
+// using a mnemonic, get the hdwallet root
+//
+// both private and public extended keys will be available
 type FromMnemonicT = string => HDKeyT
 const fromMnemonic: FromMnemonicT = mnemonic => {
   if (!bip39.validateMnemonic(mnemonic)) {
@@ -34,6 +37,10 @@ const fromMnemonic: FromMnemonicT = mnemonic => {
   return hdkey.fromMasterSeed(bip39.mnemonicToSeed(mnemonic))
 }
 
+// using an extended key, get the hdwallet root
+//
+// if a public extended key is given, only public addresses can be shown and no hardened paths
+// ca be derived
 type FromExtendedKeyT = string => HDKeyT
 const fromExtendedKey: FromExtendedKeyT = extendedKey => {
   // extendedKey as defined in BIP32
@@ -49,12 +56,14 @@ const fromExtendedKey: FromExtendedKeyT = extendedKey => {
   return hdwallet
 }
 
+// using an account derived path, get an index
 type GetIndexT = (HDKeyT, number) => HDKeyT
 const getIndex: GetIndexT = (hdwallet, index) => hdwallet.deriveChild(index)
 
+// using a hdwallet root, get an account
 type GetPathT = (HDKeyT, ?string) => HDKeyT
 const getPath: GetPathT = (hdwallet, path) => {
-  if (isMaybeType(path)) path = defaultWalletPath
+  if (isMaybeType(path)) path = getPathForAccount(0)
 
   if (!hdwallet.privateKey && /'/.test(path)) {
     throw Error('wallet.get-path.need-private-key-to-path-with-hardened-keys')
@@ -80,25 +89,25 @@ const getPath: GetPathT = (hdwallet, path) => {
 
 // NOTE: this implementation is working only for Ethereum currently
 type GetPrivateKeyT = HDKeyT => string
-const getPrivateKey: GetPrivateKeyT = hdwallet => {
+const showPrivateKey: GetPrivateKeyT = hdwallet => {
   const privateKey = hdwallet.privateKey
   if (isMaybeType(privateKey))
-    throw new Error('wallet.getPrivateKey.no-private-key-given-for-wallet')
+    throw new Error('wallet.showPrivateKey.no-private-key-given-for-wallet')
 
   return hdwallet.privateKey.toString('hex')
 }
 
 // NOTE: this implementation is working only for Ethereum currently
 type GetPublicAddressT = HDKeyT => string
-const getPublicAddress: GetPublicAddressT = hdwallet =>
+const showPublicAddress: GetPublicAddressT = hdwallet =>
   publicKeyToAddress(hdwallet.publicKey)
 
 module.exports = {
-  defaultWalletPath,
-  fromMnemonic,
   fromExtendedKey,
+  fromMnemonic,
   getIndex,
   getPath,
-  getPrivateKey,
-  getPublicAddress
+  getPathForAccount,
+  showPrivateKey,
+  showPublicAddress
 }

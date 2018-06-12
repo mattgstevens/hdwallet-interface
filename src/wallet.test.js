@@ -36,7 +36,6 @@ const fixtures = (function() {
       // exhaustively explore those failure paths in this test suite
       checksum: 'xpub123'
     },
-    // TODO: validate that transactions work on a testnet with this info
     ethereum: {
       privateKey:
         'd3b538c0900cc4ab2bc5f9926cdcc868b35163a5e67fef6842521eed997ccb3c',
@@ -108,11 +107,11 @@ describe('getIndex', () => {
 })
 
 describe('getPath', () => {
-  describe('when allowing path argument to default', () => {
+  describe('when not providing a path argument', () => {
     describe('when given a hdwallet initialized with a private key', () => {
-      it('should return a deterministic hdkey based on the defaultWalletPath', () => {
+      it('should return a deterministic hdkey by using a path to the first account', () => {
         expect(wallet.getPath(fixtures.privateHDWallet)).toEqual(
-          fixtures.privateHDWallet.derive(wallet.defaultWalletPath)
+          fixtures.privateHDWallet.derive(wallet.getPathForAccount(0))
         )
       })
     })
@@ -157,10 +156,21 @@ describe('getPath', () => {
   })
 })
 
-describe('getPrivateKey', () => {
+describe('getPathForAccount', () => {
+  it('should return the path for an ethereum coin_type', () => {
+    const accountId = 0
+    const coinType = 60
+
+    expect(wallet.getPathForAccount(accountId)).toEqual(
+      `m/44'/${coinType}'/${accountId}'/0`
+    )
+  })
+})
+
+describe('showPrivateKey', () => {
   describe('when given a hdwallet initialized with a private key', () => {
     it('should work', () => {
-      expect(wallet.getPrivateKey(fixtures.privateHDWallet)).toEqual(
+      expect(wallet.showPrivateKey(fixtures.privateHDWallet)).toEqual(
         fixtures.ethereum.privateKey
       )
     })
@@ -168,17 +178,17 @@ describe('getPrivateKey', () => {
 
   describe('when given a hdwallet initialized with a public key', () => {
     it('should error', () => {
-      expect(() => wallet.getPrivateKey(fixtures.publicHDWallet)).toThrow(
-        'wallet.getPrivateKey.no-private-key-given-for-wallet'
+      expect(() => wallet.showPrivateKey(fixtures.publicHDWallet)).toThrow(
+        'wallet.showPrivateKey.no-private-key-given-for-wallet'
       )
     })
   })
 })
 
-describe('getPublicAddress', () => {
+describe('showPublicAddress', () => {
   describe('when given a hdwallet initialized with a private key', () => {
     it('should work', () => {
-      expect(wallet.getPublicAddress(fixtures.privateHDWallet)).toEqual(
+      expect(wallet.showPublicAddress(fixtures.privateHDWallet)).toEqual(
         fixtures.ethereum.publicKey
       )
     })
@@ -186,7 +196,7 @@ describe('getPublicAddress', () => {
 
   describe('when given a hdwallet initialized with a public key', () => {
     it('should work', () => {
-      expect(wallet.getPublicAddress(fixtures.publicHDWallet)).toEqual(
+      expect(wallet.showPublicAddress(fixtures.publicHDWallet)).toEqual(
         fixtures.ethereum.publicKey
       )
     })
@@ -198,7 +208,10 @@ describe('sanity check', () => {
     expect(
       wallet.getIndex(wallet.getPath(fixtures.privateHDWallet), 0)
     ).toEqual(
-      wallet.getPath(fixtures.privateHDWallet, `${wallet.defaultWalletPath}/0`)
+      wallet.getPath(
+        fixtures.privateHDWallet,
+        `${wallet.getPathForAccount(0)}/0`
+      )
     )
   })
 
