@@ -28,9 +28,9 @@ function writeResult(transactionHash) {
       [
         [
           'sent from public address',
-          wallet.getPublicAddress(sendingFromAddress)
+          wallet.showPublicAddress(sendingFromAddress)
         ],
-        ['signed with private key', wallet.getPrivateKey(sendingFromAddress)],
+        ['signed with private key', wallet.showPrivateKey(sendingFromAddress)],
         ['signed transaction data', signedTransaction],
         ['transactionHash', transactionHash]
       ],
@@ -49,8 +49,8 @@ function writeResult(transactionHash) {
 // $FlowIgnore: process.env key might be nil, but then we report the error
 const hdwallet = wallet.fromMnemonic(process.env.HDWALLET_MNEMONIC)
 
-// get the root account using the default wallet path
-const accountRoot = wallet.getPath(hdwallet, wallet.defaultWalletPath)
+// get the first account "root" hdwallet
+const accountRoot = wallet.getPath(hdwallet, wallet.getPathForAccount(0))
 
 // get the first address index from the root account
 const sendingFromAddress = wallet.getIndex(accountRoot, 0)
@@ -62,7 +62,7 @@ const transactionOptions = {
   gasLimit: 21e3, // just sending eth, expecting default 21.000 gas cost
   gasPrice: 5e6, // what mainnet often is lately; can check at https://ethgasstation.info/
   nonce: parseInt(process.env.NONCE, 10) || 0, // how many transaction this account has sent
-  to: wallet.getPublicAddress(wallet.getIndex(accountRoot, 1)), // sending to the second account,
+  to: wallet.showPublicAddress(wallet.getIndex(accountRoot, 1)), // sending to the second account,
   value: 10e18 // amount to send in wei
 }
 
@@ -70,7 +70,7 @@ const transactionOptions = {
 //
 // NOTE: this should be done an a NON-internet connected device since privateKey is exposed
 const signedTransaction = ethereumUtil.signTransaction(
-  wallet.getPrivateKey(sendingFromAddress),
+  wallet.showPrivateKey(sendingFromAddress),
   transactionOptions
 )
 
