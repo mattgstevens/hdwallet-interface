@@ -36,3 +36,11 @@ A simple interface for hdwallets. Created with Ethereum keys in mind, however th
   * this could be determined based on transactions sent / received with a timestamp filter
 - a trusted server could hold the extended public keys, to provide on-demand reporting
   * this could be tied to an event watcher that sends notifications when a transaction includes one of the ethereum addresses
+
+## TODO
+
+### better repl setup
+- read in from a .env file, and seed hdwallet if HDWALLET_MNEMONIC is provided
+
+### discover accounts
+- search for used addresses (20 indexes is the gap limit)
