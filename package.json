@@ -14,7 +14,7 @@
     "test": "jest --config config/jest.js --coverage",
     "--- Repl ---": "---",
     "repl:comment": "open a repl that is flow type aware",
-    "repl": "flow-node",
+    "repl": "flow-node repl/index.js",
     "--- Demo ---": "---",
     "demo:send-eth": "flow-node ./example/send-eth.js",
     "demo:mnemonic-list-addresses": "HDWALLET_MNEMONIC='cube hip board knee harvest spatial snack spin baby short metal visit hamster assist jeans destroy wool pair tomorrow pattern stone recycle access obtain' flow-node ./example/mnemonic-list-addresses.js",
@@ -30,6 +30,7 @@
     "web3-providers-http": "^1.0.0-beta.34"
   },
   "devDependencies": {
+    "dotenv": "^6.0.0",
     "flow-bin": "^0.71.0",
     "flow-remove-types": "^1.2.3",
     "flow-typed": "^2.4.0",

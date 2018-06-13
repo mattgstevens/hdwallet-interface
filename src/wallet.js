@@ -3,7 +3,7 @@
 const bip39 = require('bip39')
 const hdkey = require('hdkey')
 
-const { isMaybeType } = require('./utils/flow')
+const { isNil } = require('./utils/fn')
 const { publicKeyToAddress } = require('./utils/ethereum')
 
 import type HDKeyT from 'hdkey'
@@ -63,7 +63,7 @@ const getIndex: GetIndexT = (hdwallet, index) => hdwallet.deriveChild(index)
 // using a hdwallet root, get an account
 type GetPathT = (HDKeyT, ?string) => HDKeyT
 const getPath: GetPathT = (hdwallet, path) => {
-  if (isMaybeType(path)) path = getPathForAccount(0)
+  if (isNil(path)) path = getPathForAccount(0)
 
   if (!hdwallet.privateKey && /'/.test(path)) {
     throw Error('wallet.get-path.need-private-key-to-path-with-hardened-keys')
@@ -91,7 +91,7 @@ const getPath: GetPathT = (hdwallet, path) => {
 type GetPrivateKeyT = HDKeyT => string
 const showPrivateKey: GetPrivateKeyT = hdwallet => {
   const privateKey = hdwallet.privateKey
-  if (isMaybeType(privateKey))
+  if (isNil(privateKey))
     throw new Error('wallet.showPrivateKey.no-private-key-given-for-wallet')
 
   return hdwallet.privateKey.toString('hex')

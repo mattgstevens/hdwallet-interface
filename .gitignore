@@ -1,4 +1,6 @@
-node_modules
-yarn-error.log
-coverage
 build/
+coverage/
+node_modules/
+
+.env
+yarn-error.log
