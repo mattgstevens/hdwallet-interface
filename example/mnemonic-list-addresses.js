@@ -51,8 +51,6 @@ function writeResult() {
   }
 }
 
-// when given a extended public key, no private keys are made available
-//
 // $FlowIgnore: process.env key might be nil, but then we report the error
 const hdwallet = wallet.fromMnemonic(process.env.HDWALLET_MNEMONIC)
 

@@ -35,7 +35,7 @@ const initializeContext = context => {
     // format is: { 0: [0] }
     // where keys are accounts and values are the list of addresses to init with
     const initWith = JSON.parse(
-      !isNil(process.env.INIT_WITH) ? process.env.INIT_WITH : '{ "0": [0]}'
+      !isNil(process.env.INIT_WITH) ? process.env.INIT_WITH : '{ "0": [0] }'
     )
     context.accounts = {}
 
@@ -48,15 +48,16 @@ const initializeContext = context => {
       )
 
       const addresses = initWith[accountIndex].map(addressIndex => {
-        console.log(
-          `loading account ${accountIndex} addressIndex ${addressIndex}`
-        )
-
         const addressWallet = context.wallet.getIndex(accountRoot, addressIndex)
+        const publicAddress = context.wallet.showPublicAddress(addressWallet)
+
+        console.log(
+          `loading account ${accountIndex} addressIndex ${addressIndex} -> ethereum address ${publicAddress}`
+        )
         return {
           addressIndex,
-          hdwallet: addressWallet,
-          publicAddress: context.wallet.showPublicAddress(addressWallet)
+          publicAddress,
+          hdwallet: addressWallet
         }
       })
 

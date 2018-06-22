@@ -43,16 +43,16 @@ function writeResult(transactionHash) {
 
 // setup the hdwallet using a mnemonic
 //
-// NOTE: using a mnemonic allows for private keys to be access, and should be done on a NON-internet
-// connected device
+// NOTE: using a mnemonic allows for private keys to be accessed, and should be done on a
+// NON-internet connected device (aka cold storage)
 //
 // $FlowIgnore: process.env key might be nil, but then we report the error
 const hdwallet = wallet.fromMnemonic(process.env.HDWALLET_MNEMONIC)
 
-// get the first account "root" hdwallet
+// get the first account
 const accountRoot = wallet.getPath(hdwallet, wallet.getPathForAccount(0))
 
-// get the first address index from the root account
+// get the first address index from the account
 const sendingFromAddress = wallet.getIndex(accountRoot, 0)
 
 // prepare a transaction

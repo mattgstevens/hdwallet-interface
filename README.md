@@ -39,8 +39,5 @@ A simple interface for hdwallets. Created with Ethereum keys in mind, however th
 
 ## TODO
 
-### better repl setup
-- read in from a .env file, and seed hdwallet if HDWALLET_MNEMONIC is provided
-
 ### discover accounts
 - search for used addresses (20 indexes is the gap limit)
