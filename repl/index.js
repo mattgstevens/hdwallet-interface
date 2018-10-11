@@ -32,7 +32,7 @@ const initializeContext = context => {
   if (!isNil(context.hdwallet)) {
     // convenience to spec what accounts and addresses to prepare.
     //
-    // format is: { 0: [0] }
+    // format is: { 0: [0,1,2] }
     // where keys are accounts and values are the list of addresses to init with
     const initWith = JSON.parse(
       !isNil(process.env.INIT_WITH) ? process.env.INIT_WITH : '{ "0": [0] }'
@@ -46,6 +46,8 @@ const initializeContext = context => {
         context.hdwallet,
         context.wallet.getPathForAccount(accountIndex)
       )
+
+      console.log('processing accountRoot', accountRoot.publicExtendedKey)
 
       const addresses = initWith[accountIndex].map(addressIndex => {
         const addressWallet = context.wallet.getIndex(accountRoot, addressIndex)
