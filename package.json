@@ -5,6 +5,7 @@
   "repository": "https://github.com/mattgstevens/hd-interface",
   "author": "mattgstevens <mattgstevens@gmail.com>",
   "license": "MIT",
+  "main": "build/wallet.js",
   "scripts": {
     "--- Build ---": "---",
     "build:comment": "flow-remove-types is faster than using the babel plugin",
