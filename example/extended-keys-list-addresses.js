@@ -1,11 +1,10 @@
 // @flow
-const table = require('table').table
 
+const table = require('table').table
 const wallet = require('../src/wallet')
-const ethereumUtil = require('../src/utils/ethereum')
 
 // helper function to make a pretty log in the terminal for demoing
-function writeResult() {
+function writeResult(hdwallet) {
   console.log('HDWallet Details\n---')
   console.log(
     table([
@@ -54,6 +53,4 @@ function writeResult() {
 // when given a extended public key, no private keys are made available
 //
 // $FlowIgnore: process.env key might be nil, but then we report the error
-const hdwallet = wallet.fromExtendedKey(process.env.EXTENDED_KEY)
-
-writeResult()
+writeResult(wallet.fromExtendedKey(process.env.EXTENDED_KEY))

@@ -1,7 +1,8 @@
 {
   "name": "hdwallet-interface",
   "version": "1.0.0",
-  "description": "An interface for HDWallets, for use in both an air gapped and internet connected host.",
+  "description":
+    "An interface for HDWallets, for use in both an air gapped and internet connected host.",
   "repository": "https://github.com/mattgstevens/hd-interface",
   "author": "mattgstevens <mattgstevens@gmail.com>",
   "license": "MIT",
@@ -11,16 +12,22 @@
     "build:comment": "flow-remove-types is faster than using the babel plugin",
     "build": "flow-remove-types --pretty src/ --out-dir build/",
     "--- Test ---": "---",
-    "test:comment": "run test suite with config to parse flow and report coverage",
+    "test:comment":
+      "run test suite with config to parse flow and report coverage",
     "test": "jest --config config/jest.js --coverage",
     "--- Repl ---": "---",
     "repl:comment": "open a repl that is flow type aware",
     "repl": "flow-node repl/index.js",
     "--- Demo ---": "---",
     "demo:send-eth": "flow-node ./example/send-eth.js",
-    "demo:mnemonic-list-addresses": "HDWALLET_MNEMONIC='cube hip board knee harvest spatial snack spin baby short metal visit hamster assist jeans destroy wool pair tomorrow pattern stone recycle access obtain' flow-node ./example/mnemonic-list-addresses.js",
-    "demo:private-extended-key-list-addresses": "EXTENDED_KEY=xprv9s21ZrQH143K3qU7vtKyeZyeYw3JVNdKkZyUcKJDmVYNAnHYqw9M6dAKTT5CGfgz3BQnHJaXmSaJujVMtVZBWWqn3jiqoaXDTswe3d3amku flow-node ./example/extended-keys-list-addresses.js",
-    "demo:public-extended-key-list-addresses": "EXTENDED_KEY=xpub661MyMwAqRbcGKYb2urz1hvP6xsntqMB7nu5QhhqKq5M3achPUTbeRUoJmHSdPXXzPbNyCSitcDgd9gjNx4mUZH8nw9PvAeyCCb9eFhRQPE flow-node ./example/extended-keys-list-addresses.js"
+    "demo:derive-leaf-wallets":
+      "HDWALLET_MNEMONIC='cube hip board knee harvest spatial snack spin baby short metal visit hamster assist jeans destroy wool pair tomorrow pattern stone recycle access obtain' flow-node ./example/derive-leaf-wallets.js",
+    "demo:mnemonic-list-addresses":
+      "HDWALLET_MNEMONIC='cube hip board knee harvest spatial snack spin baby short metal visit hamster assist jeans destroy wool pair tomorrow pattern stone recycle access obtain' flow-node ./example/mnemonic-list-addresses.js",
+    "demo:private-extended-key-list-addresses":
+      "EXTENDED_KEY=xprv9s21ZrQH143K3qU7vtKyeZyeYw3JVNdKkZyUcKJDmVYNAnHYqw9M6dAKTT5CGfgz3BQnHJaXmSaJujVMtVZBWWqn3jiqoaXDTswe3d3amku flow-node ./example/extended-keys-list-addresses.js",
+    "demo:public-extended-key-list-addresses":
+      "EXTENDED_KEY=xpub661MyMwAqRbcGKYb2urz1hvP6xsntqMB7nu5QhhqKq5M3achPUTbeRUoJmHSdPXXzPbNyCSitcDgd9gjNx4mUZH8nw9PvAeyCCb9eFhRQPE flow-node ./example/extended-keys-list-addresses.js"
   },
   "dependencies": {
     "bip39": "^2.5.0",
